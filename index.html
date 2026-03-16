@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InmoMatch — Tu CRM Inmobiliario</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f5f2ee;
+      --surface: #ffffff;
+      --surface2: #faf8f5;
+      --border: #e2ddd7;
+      --text: #1a1714;
+      --text2: #6b6560;
+      --text3: #9e9890;
+      --accent: #c85a2a;
+      --accent2: #e8724a;
+      --green: #2d6a4f;
+      --yellow: #b5850a;
+      --orange: #c85a2a;
+      --shadow: 0 2px 12px rgba(26,23,20,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,23,20,0.12);
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+```
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--text);
+  color: #fff;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+.logo span { color: var(--accent2); }
+
+nav { display: flex; gap: 4px; }
+nav button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+nav button:hover { color: #fff; background: rgba(255,255,255,0.08); }
+nav button.active { color: #fff; background: rgba(255,255,255,0.15); }
+
+/* MAIN */
+main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+/* TABS */
+.tab { display: none; animation: fadeIn 0.3s ease; }
+.tab.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SECTION TITLES */
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.section-sub { color: var(--text2); font-size: 0.95rem; margin-bottom: 32px; }
+
+/* TWO-COL LAYOUT */
+.two-col { display: grid; grid-template-columns: 400px 1fr; gap: 32px; align-items: start; }
+@media(max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+/* CARD */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* FORM */
+.form-group { margin-bottom: 14px; }
+label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text2);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+input[type=text], input[type=tel], input[type=number], select, textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text);
+  background: var(--surface2);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,90,42,0.12);
+}
+textarea { resize: vertical; min-height: 72px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* CHECKBOX GROUP */
+.extras-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.checkbox-item:hover { border-color: var(--accent); }
+.checkbox-item input { accent-color: var(--accent); width: 15px; height: 15px; }
+.checkbox-item span { font-size: 0.88rem; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  width: 100%;
+  margin-top: 8px;
+}
+.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,90,42,0.3); }
+.btn-danger { background: #fee2e2; color: #b91c1c; padding: 5px 10px; font-size: 0.8rem; border-radius: 6px; }
+.btn-danger:hover { background: #fecaca; }
+
+/* LIST */
+.list { display: flex; flex-direction: column; gap: 10px; max-height: 600px; overflow-y: auto; padding-right: 4px; }
+.list::-webkit-scrollbar { width: 4px; }
+.list::-webkit-scrollbar-track { background: transparent; }
+.list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.list-item {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  transition: border-color 0.2s;
+}
+.list-item:hover { border-color: var(--accent); }
+.list-item-info { flex: 1; min-width: 0; }
+.list-item-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 3px; }
+.list-item-detail { font-size: 0.82rem; color: var(--text2); }
+.list-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* EMPTY STATE */
+.empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text3);
+}
+.empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5; }
+.empty p { font-size: 0.9rem; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.4rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 0.82rem; color: var(--text2); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* FILTER PILLS */
+.filter-row { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.pill {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill.active { background: var(--text); color: #fff; border-color: var(--text); }
+.pill:hover:not(.active) { border-color: var(--text2); color: var(--text); }
+
+/* MATCH CARDS */
+.matches-list { display: flex; flex-direction: column; gap: 16px; }
+.match-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+}
+.match-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.match-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.match-names {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.match-name { font-weight: 600; font-size: 1rem; }
+.match-arrow { color: var(--text3); font-size: 1.2rem; }
+.match-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.score-bar {
+  width: 80px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.score-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+.score-alta .score-fill { background: var(--green); }
+.score-media .score-fill { background: var(--yellow); }
+.score-baja .score-fill { background: var(--orange); }
+
+.level-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.level-alta { background: #d1fae5; color: var(--green); }
+.level-media { background: #fef3c7; color: var(--yellow); }
+.level-baja { background: #ffedd5; color: var(--orange); }
+
+.match-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.match-side {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.match-side-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); margin-bottom: 5px; font-weight: 600; }
+.match-side-info { font-size: 0.87rem; color: var(--text2); }
+.match-criteria { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.criteria-tag {
+  font-size: 0.73rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+.criteria-match { background: #d1fae5; color: var(--green); }
+.criteria-nomatch { background: #fee2e2; color: #b91c1c; }
+
+@media(max-width: 600px) {
+  header { padding: 0 16px; }
+  .logo { font-size: 1.3rem; }
+  nav button { padding: 7px 10px; font-size: 0.82rem; }
+  main { padding: 24px 14px; }
+  .stats-row { grid-template-columns: 1fr; }
+  .match-details { grid-template-columns: 1fr; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Inmo<span>Match</span></div>
+  <nav>
+    <button class="active" onclick="showTab('clientes', this)">👥 Clientes</button>
+    <button onclick="showTab('viviendas', this)">🏠 Viviendas</button>
+    <button onclick="showTab('matches', this)">✨ Matches</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- TAB CLIENTES -->
+
+  <div id="tab-clientes" class="tab active">
+    <h1 class="section-title">Clientes</h1>
+    <p class="section-sub">Registra qué busca cada cliente para encontrar su vivienda ideal.</p>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">➕ Nuevo cliente <span class="badge">NUEVO</span></div>
+        <div class="form-group">
+          <label>Nombre completo *</label>
+          <input type="text" id="c-nombre" placeholder="Ej: María García López"/>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" id="c-telefono" placeholder="Ej: 612 345 678"/>
+        </div>
+        <div class="form-group">
+          <label>Tipo de propiedad</label>
+          <select id="c-tipo">
+            <option value="">Indiferente</option>
+            <option>Piso</option><option>Casa</option><option>Chalet</option>
+            <option>Ático</option><option>Bajo con jardín</option><option>Local</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Zona / Barrio preferido</label>
+          <input type="text" id="c-zona" placeholder="Ej: Centro, Salamanca…"/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Hab. mínimas</label>
+            <input type="number" id="c-hab-min" placeholder="1" min="0"/>
+          </div>
+          <div class="form-group">
+            <label>Hab. máximas</label>
+            <input type="number" id="c-hab-max" placeholder="5" min="0"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Precio mín (€)</label>
+            <input type="number" id="c-precio-min" placeholder="0" min="0"/>
+          </div>
+          <div class="form-group">
+            <label>Precio máx (€)</label>
+            <input type="number" id="c-precio-max" placeholder="500000" min="0"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Extras deseados</label>
+          <div class="extras-grid">
+            <label class="checkbox-item"><input type="checkbox" value="Garaje" class="c-extra"/><span>🚗 Garaje</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Piscina" class="c-extra"/><span>🏊 Piscina</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Terraza" class="c-extra"/><span>🌿 Terraza</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Ascensor" class="c-extra"/><span>🛗 Ascensor</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Trastero" class="c-extra"/><span>📦 Trastero</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Jardín" class="c-extra"/><span>🌳 Jardín</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Notas adicionales</label>
+          <textarea id="c-notas" placeholder="Preferencias especiales, urgencia…"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="guardarCliente()">💾 Guardar cliente</button>
+      </div>
+      <div>
+        <div class="card-title" style="margin-bottom:16px;">Clientes guardados</div>
+        <div class="list" id="lista-clientes">
+          <div class="empty"><div class="empty-icon">👤</div><p>Aún no tienes clientes.<br>Añade el primero.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB VIVIENDAS -->
+
+  <div id="tab-viviendas" class="tab">
+    <h1 class="section-title">Viviendas</h1>
+    <p class="section-sub">Añade las propiedades disponibles con todos sus detalles.</p>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">➕ Nueva vivienda <span class="badge">NUEVO</span></div>
+        <div class="form-group">
+          <label>Referencia / Nombre *</label>
+          <input type="text" id="v-nombre" placeholder="Ej: Piso Calle Mayor 4°B"/>
+        </div>
+        <div class="form-group">
+          <label>Tipo de propiedad</label>
+          <select id="v-tipo">
+            <option value="">Seleccionar…</option>
+            <option>Piso</option><option>Casa</option><option>Chalet</option>
+            <option>Ático</option><option>Bajo con jardín</option><option>Local</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Zona / Barrio</label>
+          <input type="text" id="v-zona" placeholder="Ej: Centro, Salamanca…"/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Habitaciones</label>
+            <input type="number" id="v-hab" placeholder="3" min="0"/>
+          </div>
+          <div class="form-group">
+            <label>Precio (€)</label>
+            <input type="number" id="v-precio" placeholder="280000" min="0"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>m²</label>
+            <input type="number" id="v-m2" placeholder="90" min="0"/>
+          </div>
+          <div class="form-group">
+            <label>Planta</label>
+            <input type="text" id="v-planta" placeholder="3° / Bajo / Ático"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Extras disponibles</label>
+          <div class="extras-grid">
+            <label class="checkbox-item"><input type="checkbox" value="Garaje" class="v-extra"/><span>🚗 Garaje</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Piscina" class="v-extra"/><span>🏊 Piscina</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Terraza" class="v-extra"/><span>🌿 Terraza</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Ascensor" class="v-extra"/><span>🛗 Ascensor</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Trastero" class="v-extra"/><span>📦 Trastero</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Jardín" class="v-extra"/><span>🌳 Jardín</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="v-desc" placeholder="Detalles del inmueble…"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="guardarVivienda()">💾 Guardar vivienda</button>
+      </div>
+      <div>
+        <div class="card-title" style="margin-bottom:16px;">Viviendas guardadas</div>
+        <div class="list" id="lista-viviendas">
+          <div class="empty"><div class="empty-icon">🏠</div><p>Aún no tienes viviendas.<br>Añade la primera.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB MATCHES -->
+
+  <div id="tab-matches" class="tab">
+    <h1 class="section-title">✨ Matches</h1>
+    <p class="section-sub">Clientes y viviendas compatibles según sus criterios.</p>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num" id="stat-clientes">0</div><div class="stat-label">Clientes</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-viviendas">0</div><div class="stat-label">Viviendas</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-matches">0</div><div class="stat-label">Matches</div></div>
+    </div>
+    <div class="filter-row">
+      <div class="pill active" onclick="filtrarMatches('todos', this)">Todos</div>
+      <div class="pill" onclick="filtrarMatches('alta', this)">🟢 Alta</div>
+      <div class="pill" onclick="filtrarMatches('media', this)">🟡 Media</div>
+      <div class="pill" onclick="filtrarMatches('baja', this)">🟠 Baja</div>
+    </div>
+    <div class="matches-list" id="lista-matches">
+      <div class="empty"><div class="empty-icon">✨</div><p>Añade clientes y viviendas para ver los matches aquí.</p></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ---- DATA ----
+  let clientes = JSON.parse(localStorage.getItem('inmo_clientes') || '[]');
+  let viviendas = JSON.parse(localStorage.getItem('inmo_viviendas') || '[]');
+  let filtroActual = 'todos';
+
+  function save() {
+    localStorage.setItem('inmo_clientes', JSON.stringify(clientes));
+    localStorage.setItem('inmo_viviendas', JSON.stringify(viviendas));
+  }
+
+  // ---- TABS ----
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    if (name === 'matches') renderMatches();
+  }
+
+  // ---- CLIENTES ----
+  function guardarCliente() {
+    const nombre = document.getElementById('c-nombre').value.trim();
+    if (!nombre) { alert('El nombre es obligatorio.'); return; }
+    const extras = [...document.querySelectorAll('.c-extra:checked')].map(e => e.value);
+    const c = {
+      id: Date.now(),
+      nombre,
+      telefono: document.getElementById('c-telefono').value.trim(),
+      tipo: document.getElementById('c-tipo').value,
+      zona: document.getElementById('c-zona').value.trim(),
+      habMin: parseInt(document.getElementById('c-hab-min').value) || 0,
+      habMax: parseInt(document.getElementById('c-hab-max').value) || 999,
+      precioMin: parseInt(document.getElementById('c-precio-min').value) || 0,
+      precioMax: parseInt(document.getElementById('c-precio-max').value) || 9999999,
+      extras,
+      notas: document.getElementById('c-notas').value.trim()
+    };
+    clientes.push(c);
+    save();
+    renderClientes();
+    limpiarFormCliente();
+  }
+
+  function limpiarFormCliente() {
+    ['c-nombre','c-telefono','c-zona','c-hab-min','c-hab-max','c-precio-min','c-precio-max','c-notas'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('c-tipo').value = '';
+    document.querySelectorAll('.c-extra').forEach(e => e.checked = false);
+  }
+
+  function eliminarCliente(id) {
+    clientes = clientes.filter(c => c.id !== id);
+    save(); renderClientes();
+  }
+
+  function renderClientes() {
+    const el = document.getElementById('lista-clientes');
+    if (!clientes.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><p>Aún no tienes clientes.<br>Añade el primero.</p></div>';
+      return;
+    }
+    el.innerHTML = clientes.map(c => `
+      <div class="list-item">
+        <div class="list-item-info">
+          <div class="list-item-name">👤 ${c.nombre}</div>
+          <div class="list-item-detail">${c.telefono ? '📞 ' + c.telefono + ' · ' : ''}${c.tipo || 'Indiferente'} · ${c.zona || 'Sin zona'}</div>
+          <div class="list-item-detail">💰 ${fmt(c.precioMin)}–${fmt(c.precioMax)} · 🛏 ${c.habMin||'?'}–${c.habMax === 999 ? '∞' : c.habMax} hab.</div>
+          <div class="list-item-tags">${c.extras.map(e => `<span class="tag">${e}</span>`).join('')}</div>
+        </div>
+        <button class="btn btn-danger" onclick="eliminarCliente(${c.id})">🗑</button>
+      </div>`).join('');
+  }
+
+  // ---- VIVIENDAS ----
+  function guardarVivienda() {
+    const nombre = document.getElementById('v-nombre').value.trim();
+    if (!nombre) { alert('La referencia es obligatoria.'); return; }
+    const extras = [...document.querySelectorAll('.v-extra:checked')].map(e => e.value);
+    const v = {
+      id: Date.now(),
+      nombre,
+      tipo: document.getElementById('v-tipo').value,
+      zona: document.getElementById('v-zona').value.trim(),
+      hab: parseInt(document.getElementById('v-hab').value) || 0,
+      precio: parseInt(document.getElementById('v-precio').value) || 0,
+      m2: parseInt(document.getElementById('v-m2').value) || 0,
+      planta: document.getElementById('v-planta').value.trim(),
+      extras,
+      desc: document.getElementById('v-desc').value.trim()
+    };
+    viviendas.push(v);
+    save();
+    renderViviendas();
+    limpiarFormVivienda();
+  }
+
+  function limpiarFormVivienda() {
+    ['v-nombre','v-zona','v-hab','v-precio','v-m2','v-planta','v-desc'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('v-tipo').value = '';
+    document.querySelectorAll('.v-extra').forEach(e => e.checked = false);
+  }
+
+  function eliminarVivienda(id) {
+    viviendas = viviendas.filter(v => v.id !== id);
+    save(); renderViviendas();
+  }
+
+  function renderViviendas() {
+    const el = document.getElementById('lista-viviendas');
+    if (!viviendas.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">🏠</div><p>Aún no tienes viviendas.<br>Añade la primera.</p></div>';
+      return;
+    }
+    el.innerHTML = viviendas.map(v => `
+      <div class="list-item">
+        <div class="list-item-info">
+          <div class="list-item-name">🏠 ${v.nombre}</div>
+          <div class="list-item-detail">${v.tipo || '—'} · ${v.zona || 'Sin zona'} · Planta: ${v.planta || '—'}</div>
+          <div class="list-item-detail">💰 ${fmt(v.precio)} · 🛏 ${v.hab} hab. · 📐 ${v.m2} m²</div>
+          <div class="list-item-tags">${v.extras.map(e => `<span class="tag">${e}</span>`).join('')}</div>
+        </div>
+        <button class="btn btn-danger" onclick="eliminarVivienda(${v.id})">🗑</button>
+      </div>`).join('');
+  }
+
+  // ---- MATCHES ----
+  function calcularScore(c, v) {
+    let puntos = 0, total = 0, criterios = [];
+
+    // Tipo
+    total++;
+    if (!c.tipo || !v.tipo || c.tipo === v.tipo) { puntos++; criterios.push({label:'Tipo', ok:true}); }
+    else criterios.push({label:'Tipo', ok:false});
+
+    // Zona
+    total++;
+    if (!c.zona || !v.zona || v.zona.toLowerCase().includes(c.zona.toLowerCase()) || c.zona.toLowerCase().includes(v.zona.toLowerCase())) {
+      puntos++; criterios.push({label:'Zona', ok:true});
+    } else criterios.push({label:'Zona', ok:false});
+
+    // Precio
+    total++;
+    if (v.precio >= c.precioMin && v.precio <= c.precioMax) { puntos++; criterios.push({label:'Precio', ok:true}); }
+    else criterios.push({label:'Precio', ok:false});
+
+    // Habitaciones
+    total++;
+    if (v.hab >= c.habMin && v.hab <= c.habMax) { puntos++; criterios.push({label:'Habitaciones', ok:true}); }
+    else criterios.push({label:'Habitaciones', ok:false});
+
+    // Extras
+    c.extras.forEach(ex => {
+      total++;
+      if (v.extras.includes(ex)) { puntos++; criterios.push({label:ex, ok:true}); }
+      else criterios.push({label:ex, ok:false});
+    });
+
+    const pct = total > 0 ? Math.round((puntos / total) * 100) : 0;
+    const nivel = pct >= 75 ? 'alta' : pct >= 50 ? 'media' : 'baja';
+    return { pct, nivel, criterios };
+  }
+
+  function filtrarMatches(filtro, btn) {
+    filtroActual = filtro;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    renderMatches();
+  }
+
+  function renderMatches() {
+    document.getElementById('stat-clientes').textContent = clientes.length;
+    document.getElementById('stat-viviendas').textContent = viviendas.length;
+
+    const el = document.getElementById('lista-matches');
+    if (!clientes.length || !viviendas.length) {
+      document.getElementById('stat-matches').textContent = 0;
+      el.innerHTML = '<div class="empty"><div class="empty-icon">✨</div><p>Añade clientes y viviendas para ver los matches aquí.</p></div>';
+      return;
+    }
+
+    let allMatches = [];
+    clientes.forEach(c => {
+      viviendas.forEach(v => {
+        const score = calcularScore(c, v);
+        allMatches.push({ c, v, score });
+      });
+    });
+
+    allMatches.sort((a, b) => b.score.pct - a.score.pct);
+
+    const filtered = filtroActual === 'todos' ? allMatches : allMatches.filter(m => m.score.nivel === filtroActual);
+
+    document.getElementById('stat-matches').textContent = filtered.filter(m => m.score.pct >= 50).length;
+
+    if (!filtered.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>No hay matches con este filtro.</p></div>';
+      return;
+    }
+
+    el.innerHTML = filtered.map(({c, v, score}) => `
+      <div class="match-card">
+        <div class="match-header">
+          <div class="match-names">
+            <span class="match-name">👤 ${c.nombre}</span>
+            <span class="match-arrow">→</span>
+            <span class="match-name">🏠 ${v.nombre}</span>
+          </div>
+          <div class="match-score">
+            <div class="score-bar score-${score.nivel}">
+              <div class="score-fill" style="width:${score.pct}%"></div>
+            </div>
+            <span style="font-weight:600;font-size:0.9rem;color:var(--text2);min-width:36px;">${score.pct}%</span>
+            <span class="level-badge level-${score.nivel}">${score.nivel === 'alta' ? '🟢 Alta' : score.nivel === 'media' ? '🟡 Media' : '🟠 Baja'}</span>
+          </div>
+        </div>
+        <div class="match-details">
+          <div class="match-side">
+            <div class="match-side-title">Cliente busca</div>
+            <div class="match-side-info">${c.tipo || 'Indiferente'} · ${c.zona || 'Cualquier zona'}<br>💰 ${fmt(c.precioMin)}–${fmt(c.precioMax)} · 🛏 ${c.habMin||'0'}–${c.habMax===999?'∞':c.habMax} hab.</div>
+          </div>
+          <div class="match-side">
+            <div class="match-side-title">Vivienda ofrece</div>
+            <div class="match-side-info">${v.tipo || '—'} · ${v.zona || '—'}<br>💰 ${fmt(v.precio)} · 🛏 ${v.hab} hab. · 📐 ${v.m2} m²</div>
+          </div>
+        </div>
+        <div class="match-criteria">
+          ${score.criterios.map(cr => `<span class="criteria-tag ${cr.ok ? 'criteria-match' : 'criteria-nomatch'}">${cr.ok ? '✓' : '✗'} ${cr.label}</span>`).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  // ---- HELPERS ----
+  function fmt(n) {
+    if (!n && n !== 0) return '—';
+    return n.toLocaleString('es-ES') + ' €';
+  }
+
+  // ---- INIT ----
+  renderClientes();
+  renderViviendas();
+</script>
+
+</body>
+</html>
